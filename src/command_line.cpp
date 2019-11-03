@@ -1,3 +1,9 @@
+
+/*! \file   command_line.cpp
+
+    API for managing the command line
+*/
+
 #include "command_line.h"
 
 #include <ctype.h>
