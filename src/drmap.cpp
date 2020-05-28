@@ -30,14 +30,15 @@
       
       The correction is small for reasonable distances, and makes no substantive difference to the result.
 
-    The USGS data, which are the 1/3 arc-second elevation data from the National Map,  should have sufficient resolution 
+    The USGS data, which are the ⅓″ elevation data from the National Map, should have sufficient resolution 
     for most purposes pertaining to HF: data points are ~10m apart. I have seen no estimate from the USGS as to the error 
-    associated with their data. My understanding is that the USGS is in the process of augmenting the 1/3 arc-second data
+    associated with their data. My understanding is that the USGS is in the process of augmenting the ⅓″ data
     with national data with a new elevation map with 1-metre resolution, which of course will eliminate any concerns about using
     the current USGS data for HF purposes.  
 */
 
-/*  drmap
+/*  
+    drmap
       -ant  <antenna height>
       
         The height of the antenna. If -imperial is present, the height is in feet, otherwise it is in metres.
@@ -71,7 +72,7 @@
         
       -imperial
       
-        Use imperial units instead of metric. That is, miles insetad of kilometres and feet instead of metres. Applies both to values
+        Use imperial units instead of metric. That is, miles instead of kilometres and feet instead of metres. Applies both to values
         on the command line and to values on the output plot(s).
         
       -lat <latitude>
@@ -121,7 +122,7 @@
         Look up the call "n7dr" (case is ignored) in the file "~/radio/qthdb". Each line in that file is of the form:
         <callsign>     <latitude>     <longitude>
         
-        In particular the fillowing line appears in that file on my system:
+        In particular the following line appears in that file on my system:
         N7DR        40.108016   -105.051700
         
         The latitude and longitude information for N7DR are extracted from that file.
@@ -153,11 +154,25 @@
         
         It will generate a height plot displaying a radius of 1 kilometre around the designated location.
         
-      drmap -call RMNP -datadir /zfs1/data/usgs/drmap -outdir /tmp/drmap -lat 38.469303 -long -109.739254 -radius 10 -los -hzn 5 -grad
+      drmap -call RMNP -datadir /zfs1/data/usgs/drmap -outdir /tmp/drmap -lat 38.469303 -long -109.739254 -radius 10 -los -hzn 5 -grad -elev
         
-        FIX Hzn Eye to say 1.5 instead of 1
-        FIX Hzn elevation going up to 65°
+        Create a plot for the point 40°.441358N, 105°.753685W (which is in Rocky Mountain National Park).
         
+        The program will look for relevant USGS files in the directory "/zfs1/data/usgs/drmap". If it fails to find any needed
+        files, it will download them from the USGS and place them in that directory prior to using them.
+
+        The program will write output plots in the directory tmp/drmap.
+        
+        The program will use metric units (kilometres and metres).
+        
+        It will generate a height plot displaying a radius of 10 kilometres around the designated location.
+        
+        It will also generate a line-of-sight plot, assuming the default eye level of 1.5m.
+        
+        It will also generate a gradient plot, showing at each point the gradient measured in a direction from the centre of the plot to that point.
+        
+        It will also generate an elevation plot (reminiscent of 1960s tie-dye), showing at each point the elevation angle measured in a direction from the centre
+        of the plot to that point.
 */
 
 #include "command_line.h"
@@ -1127,7 +1142,8 @@ void draw_logo(RInside& R, const double& distance_scale)
   const float x { static_cast<float>(0.90 * distance_scale) };
   const float y { static_cast<float>(-0.95 * distance_scale) };
     
-  execute_r(R, "text(x = "s + to_string(x) + ", y = "s + to_string(y) + ", labels = '"s + "N7DR" + "', col = 'dark green', cex = 1.2, font = 2)"s);  // bold
+ // execute_r(R, "text(x = "s + to_string(x) + ", y = "s + to_string(y) + ", labels = '"s + "N7DR" + "', col = 'dark green', cex = 1.2, font = 2)"s);  // bold
+  execute_r(R, "text(x = "s + to_string(x) + ", y = "s + to_string(y) + ", labels = '"s + "N7DR" + "', col = 'dark green', cex = 1.2, font = 2, family = 'Noto Mono')"s);  // bold
 }
 
 /*  \brief          Calculate the elevation above zero degrees of one point as seen from another

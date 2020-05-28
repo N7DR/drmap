@@ -98,7 +98,12 @@ bin/drmap : bin/command_line.o bin/diskfile.o bin/drmap.o bin/grid_float.o bin/m
 	$(CC) $(LINKFLAGS) bin/command_line.o bin/diskfile.o bin/drmap.o bin/grid_float.o bin/memory.o bin/r_figure.o bin/string_functions.o $(LIBRARIES) \
 	-o bin/drmap
 	
-drmap : bin/drmap
+drmap : directories bin/drmap
+
+directories: bin
+
+bin:
+	mkdir -p bin
 
 # clean everything
 clean :

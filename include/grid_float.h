@@ -368,9 +368,6 @@ inline const int llc(const std::pair<double, double>& ll)
 inline const int llc(const std::string& basefilename) //"nLLwLLL"
   { return ( from_string<int>(basefilename.substr(1, 2)) * 1000 + from_string<int>(basefilename.substr(4, 3))); }
 
-//inline const double curvature_correction(const double& d)
-//  { return ( ( (1 / cos(d / RE) ) - 1) * RE ); }
-
 inline const double curvature_correction(const double& d)
   { return ( ( 1 - cos(d / RE) ) * RE ); }
 
